@@ -1,0 +1,5 @@
+
+rootProject.name = "ShowClosedPR"
+include ':app'
+include ':domain'
+include ':data'
