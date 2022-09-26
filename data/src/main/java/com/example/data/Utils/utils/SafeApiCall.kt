@@ -1,5 +1,6 @@
 package com.example.data.Utils.utils
 
+import android.util.Log
 import com.example.domain.ApiError
 import com.example.domain.ClientResult
 import com.example.domain.NoConnectivityException
@@ -17,6 +18,7 @@ private const val ERROR_TOKEN_NOT_PROVIDED = 402
 suspend fun <T> safeApiCall(call: suspend () -> Response<T>): ClientResult<T> {
     return try {
         val response = call.invoke()
+        Log.d("SHAW_TAG", "safeApiCall: " + response)
         return if (response.isSuccessful) {
             response.body()?.let {
                 createSuccess(it).apply {
@@ -40,10 +42,10 @@ fun <T> createSuccess(response: T): ClientResult<T> =
 private fun <T> createErrorWithResponse(response: Response<T>): ClientResult<T> {
     when (response.code()) {
         ERROR_TOKEN_EXPIRED -> {
-            fireTokenExpiredEvent()
+            fireTokenExpiredEvent(response.code())
         }
         ERROR_TOKEN_NOT_PROVIDED -> {
-            fireTokenExpiredEvent()
+            fireTokenExpiredEvent(response.code())
         }
     }
     return try {
@@ -57,8 +59,8 @@ private fun <T> createErrorWithResponse(response: Response<T>): ClientResult<T> 
     }
 }
 
-private fun fireTokenExpiredEvent() {
-    // EventBus.getDefault().post(TokenExpiredEvent())
+private fun fireTokenExpiredEvent(code: Int) {
+    ClientResult.Error(ApiError("Error With Code$code"))
 }
 
 private fun <T> createError(t: Throwable): ClientResult<T> {

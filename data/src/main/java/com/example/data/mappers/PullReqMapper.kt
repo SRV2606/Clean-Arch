@@ -3,17 +3,17 @@ package com.example.data.mappers
 import ResponseClosedPrs
 import com.example.data.serverModels.ResponseUser
 import com.example.domain.ClientResult
-import com.example.domain.models.ClosedPullRequests
+import com.example.domain.models.ClosedPrs
 import com.example.domain.models.User
 
-class ClosedPRMapper {
+class PullReqMapper {
 
-    fun toPRList(responseClosedPrs: ClientResult<List<ResponseClosedPrs>>): ClientResult<List<ClosedPullRequests>> {
+    fun toPRList(responseClosedPrs: ClientResult<List<ResponseClosedPrs>>): ClientResult<List<ClosedPrs>> {
         return responseClosedPrs.let { clientRes ->
             when (clientRes) {
                 is ClientResult.Success -> {
                     val result = clientRes.data.map {
-                        ClosedPullRequests(
+                        ClosedPrs(
                             title = it.title,
                             createdAt = it.createdAt,
                             user = transformUser(it.user),

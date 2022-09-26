@@ -1,6 +1,6 @@
-package com.example.showclosedpr
+package com.example.showclosedpr.di
 
-import com.example.data.mappers.ClosedPRMapper
+import com.example.data.mappers.PullReqMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +13,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideClosedPrMapper(): ClosedPRMapper {
-        return ClosedPRMapper()
+    fun provideClosedPrMapper(): PullReqMapper {
+        return PullReqMapper()
     }
 }

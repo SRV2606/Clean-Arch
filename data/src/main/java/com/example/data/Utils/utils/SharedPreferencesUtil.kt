@@ -16,19 +16,12 @@ class SharedPreferenceUtil @Inject constructor(
     companion object {
 
         private val gson = Gson()
-        private const val INSTASOLV_PREF_NAME = "instasolvPref"
-        private const val KEY_USER = "instasolvUser"
-        const val IS_USER_LOGGED_IN = "IS_USER_LOGGED_IN"
         const val EXTRA_USER_ID = "EXTRA_USER_ID"
-        const val EXTRA_EXAM_ID = "EXTRA_EXAM_ID"
-        const val EXTRA_EXAM_NAME = "EXTRA_EXAM_NAME"
-        const val FEED_SESSION_COUNT = "FEED_SESSION_COUNT"
-        const val KEY_DAY_USER_LOGIN = "KEY_DAY_USER_LOGIN"
-        const val EXTRA_IS_USER_ASKER = "KEY_IS_USER_ASKER"
+
     }
 
     private val preferences =
-        context.getSharedPreferences(INSTASOLV_PREF_NAME, Context.MODE_PRIVATE)
+        context.getSharedPreferences("PullRequests", Context.MODE_PRIVATE)
     private val editor: SharedPreferences.Editor by lazy { preferences.edit() }
 
 
@@ -128,35 +121,8 @@ class SharedPreferenceUtil @Inject constructor(
         putString(EXTRA_USER_ID, value)
     }
 
-    fun putIsUserAskererType(value: Boolean) {
-        putBoolean(EXTRA_IS_USER_ASKER, value)
-    }
-
-    fun getIsUserAskererType(): Boolean = getBoolean(EXTRA_IS_USER_ASKER)
 
     fun getUserId(): String = getString(EXTRA_USER_ID, "")
 
-    suspend fun putExamId(value: String?) {
-        value?.let {
-            putString(EXTRA_EXAM_ID, value)
-        }
-    }
-
-    fun getExamId(): String = getString(EXTRA_EXAM_ID, "")
-
-    suspend fun putExamName(examName: String) {
-        putString(EXTRA_EXAM_NAME, examName)
-    }
-
-    fun updateFeedSessionCount() {
-        putInt(FEED_SESSION_COUNT, getInt(FEED_SESSION_COUNT) + 1)
-    }
-
-    fun getFeedSessionCount() = getInt(FEED_SESSION_COUNT)
-
-    fun getTimerValue(): Float = getFloat("TIMER_VAL")
-    fun setTimerValue(valueTimer: Float) {
-        putFloat("TIMER_VAL", valueTimer)
-    }
 
 }

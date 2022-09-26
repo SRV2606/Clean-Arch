@@ -1,4 +1,4 @@
-package com.example.com.example.showclosedpr
+package com.example.showclosedpr.base
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,7 +16,7 @@ abstract class BaseActivity<B : ViewDataBinding>(@LayoutRes private val layoutId
     protected val binding: B
         get() = _binding
 
-    protected val activity = this
+    protected val activity by lazy { this }
 
 
     abstract fun readArguments(extras: Intent)

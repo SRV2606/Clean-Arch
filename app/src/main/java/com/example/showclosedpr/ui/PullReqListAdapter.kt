@@ -1,32 +1,31 @@
-package com.example.showclosedpr
+package com.example.showclosedpr.ui
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.com.example.showclosedpr.BaseViewHolder
-import com.example.domain.models.ClosedPullRequests
+import com.example.domain.models.ClosedPrs
+import com.example.showclosedpr.base.BaseViewHolder
 import com.example.showclosedpr.databinding.ItemPullreqListBinding
 
 class PullReqListAdapter(
-    private val itemClickListener: (View, ClosedPullRequests?, Int, Any?) -> Unit,
+    private val itemClickListener: (ClosedPrs) -> Unit,
     private val context: Context
-) : ListAdapter<ClosedPullRequests, BaseViewHolder<*>>(DIFF_CALLBACK) {
+) : ListAdapter<ClosedPrs, BaseViewHolder<*>>(DIFF_CALLBACK) {
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ClosedPullRequests>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ClosedPrs>() {
             override fun areItemsTheSame(
-                oldItem: ClosedPullRequests,
-                newItem: ClosedPullRequests
+                oldItem: ClosedPrs,
+                newItem: ClosedPrs
             ): Boolean {
                 return oldItem.user?.id == newItem.user?.id
             }
 
             override fun areContentsTheSame(
-                oldItem: ClosedPullRequests,
-                newItem: ClosedPullRequests
+                oldItem: ClosedPrs,
+                newItem: ClosedPrs
             ): Boolean {
                 return oldItem == newItem
             }
@@ -35,7 +34,7 @@ class PullReqListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
-        return PullReqListViewHolder(
+        return PullReqViewHolder(
             ItemPullreqListBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -45,7 +44,7 @@ class PullReqListAdapter(
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
-        (holder as PullReqListViewHolder).setItem(
+        (holder as PullReqViewHolder).setItem(
             currentList[position],
             itemClickListener
         )

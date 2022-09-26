@@ -29,7 +29,6 @@ class NetworkModule {
         private const val CACHE_CONTROL = "Cache-Control"
         private const val EXTRA_VERSION = "app-version"
         const val EXTRA_HEADER = "x-auth-token"
-        const val EXTRA_HEADER_VEDANTU = "X-Ved-Token"
     }
 
     @Provides
@@ -51,7 +50,7 @@ class NetworkModule {
             .addInterceptor(loggingInterceptor)
             .addInterceptor(staleIfErrorInterceptor)
             .addNetworkInterceptor(cacheInterceptor)
-            .cache(cache)
+//            .cache(cache) // can add this if we want to cache , but here disabled it so its easy to check the error screen handling
             .build()
     }
 
@@ -85,11 +84,6 @@ class NetworkModule {
         return Interceptor { chain ->
             val originalRequest = chain.request()
             val requestBuilder = originalRequest.newBuilder()
-            val vToken = sharedPreferenceUtil.getString(EXTRA_HEADER_VEDANTU)
-
-            if (vToken.isNotEmpty())
-                requestBuilder.header(EXTRA_HEADER_VEDANTU, vToken)
-            else
                 requestBuilder.header(
                     EXTRA_HEADER, sharedPreferenceUtil.getString(EXTRA_HEADER)
                 )
@@ -107,7 +101,6 @@ class NetworkModule {
         return Interceptor { chain ->
             var request = chain.request()
             if (!networkUtil.hasNetwork()) {
-//        EventBus.getDefault().post(NoInternetEvent())
                 request = request.newBuilder().cacheControl(cacheControl).build()
                 val response = chain.proceed(request)
                 if (response.cacheResponse == null)

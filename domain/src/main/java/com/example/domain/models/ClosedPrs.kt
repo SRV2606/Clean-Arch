@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ClosedPullRequests(
+data class ClosedPrs(
     var createdAt: String? = "",
     var title: String? = "",
     var closedAt: String? = "",

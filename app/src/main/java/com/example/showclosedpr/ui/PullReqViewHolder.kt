@@ -1,19 +1,19 @@
-package com.example.showclosedpr
+package com.example.showclosedpr.ui
 
 import android.content.Context
-import android.view.View
 import com.bumptech.glide.Glide
-import com.example.com.example.showclosedpr.BaseViewHolder
-import com.example.domain.models.ClosedPullRequests
+import com.example.domain.models.ClosedPrs
+import com.example.showclosedpr.base.BaseViewHolder
 import com.example.showclosedpr.databinding.ItemPullreqListBinding
+import com.example.showclosedpr.toHumanReadableTime
 
-class PullReqListViewHolder(
+class PullReqViewHolder(
     private val binding: ItemPullreqListBinding,
     private val context: Context,
-) : BaseViewHolder<ClosedPullRequests>(binding) {
+) : BaseViewHolder<ClosedPrs>(binding) {
     override fun setItem(
-        data: ClosedPullRequests?,
-        itemClickListener: (View, ClosedPullRequests?, Int, Any?) -> Unit
+        data: ClosedPrs?,
+        itemClickListener: (ClosedPrs) -> Unit
     ) {
         data?.let {
             binding.userName.text = it.user?.login
@@ -21,9 +21,13 @@ class PullReqListViewHolder(
             binding.commitTitleTV.text = it.title
             binding.createdAtTV.text = it.createdAt?.toHumanReadableTime()
             binding.closedAtTV.text = it.closedAt?.toHumanReadableTime()
-
+            binding.parentHolderCL.setOnClickListener { v ->
+                itemClickListener(it)
+            }
         }
     }
+
+
 }
 
 

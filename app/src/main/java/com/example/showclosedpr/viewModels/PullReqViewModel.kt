@@ -1,10 +1,10 @@
 package com.example.showclosedpr.com.example.showclosedpr.viewModels
 
-import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.ClientResult
-import com.example.domain.models.ClosedPullRequests
+import com.example.domain.models.ClosedPrs
 import com.example.domain.usecase.GetClosedPrsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,9 +17,12 @@ import javax.inject.Inject
 class PullReqViewModel @Inject constructor(private val userCase: GetClosedPrsUseCase) :
     ViewModel() {
 
-    private val _closedPrsList: MutableStateFlow<ClientResult<List<ClosedPullRequests>>> =
+    private val _closedPrsList: MutableStateFlow<ClientResult<List<ClosedPrs>>> =
         MutableStateFlow(ClientResult.InProgress)
     val closePrsList = _closedPrsList.asStateFlow()
+
+    private val _isLoadingMLD: MutableLiveData<Boolean> = MutableLiveData(true)
+    val isLoadingMLD = _isLoadingMLD
 
 
     init {
@@ -29,14 +32,17 @@ class PullReqViewModel @Inject constructor(private val userCase: GetClosedPrsUse
     fun getClosedPrsList() {
         viewModelScope.launch {
             _closedPrsList.emit(ClientResult.InProgress)
-            when (val result = userCase.getClosedPRsList()) {
-                is ClientResult.Success -> {
+            when (val result = userCase.getClosedPRsList("closed")) {
+                is ClientResult.InProgress -> {
                     _closedPrsList.emit(result)
                 }
-                is ClientResult.Error -> {
-                    Log.d("SHAW_TAG", "getClosedPrsList: " + result.error)
+                is ClientResult.Success -> {
+                    _closedPrsList.emit(result)
+                    _isLoadingMLD.value = false
                 }
-
+                is ClientResult.Error -> {
+                    _closedPrsList.emit(result)
+                }
                 else -> {}
             }
         }
