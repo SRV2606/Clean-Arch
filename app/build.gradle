@@ -29,14 +29,27 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures{
+        dataBinding true
+        viewBinding true
+    }
 }
 
 
 dependencies {
+    implementation project(':data')
+    implementation project(':domain')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(":domain")
-    implementation project(":data")
-    implementation 'androidx.databinding:databinding-runtime:7.2.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.7.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.8.0'
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:4.4.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.4.1"
+    implementation "androidx.room:room-runtime:2.2.4"
+    implementation "androidx.room:room-ktx:2.2.4"
+    kapt "androidx.room:room-compiler:2.2.4"
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
     implementation "androidx.core:core-ktx:1.6.0"
     implementation "androidx.appcompat:appcompat:1.5.1"
@@ -59,7 +72,7 @@ dependencies {
 
     //hilt
     implementation "com.google.dagger:hilt-android:$versions.hilt"
-    kapt "com.google.dagger:hilt-android-compiler:$versions.hilt"
+    kapt  "com.google.dagger:hilt-android-compiler:$versions.hilt"
 
     // Hilt Robolectric tests.
     testImplementation "com.google.dagger:hilt-android-testing:$versions.hilt"
