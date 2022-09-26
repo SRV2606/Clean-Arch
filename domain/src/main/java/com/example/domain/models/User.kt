@@ -9,5 +9,6 @@ data class User(
     var login: String? = "",
     var nodeId: String? = "",
     var organizationsUrl: String? = "",
+    var avatarUrl: String? = "",
     var receivedEventsUrl: String? = "",
 ) : Parcelable

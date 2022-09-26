@@ -38,7 +38,8 @@ class ClosedPRMapper {
                 id = it.id,
                 login = it.login,
                 nodeId = it.nodeId,
-                organizationsUrl = it.organizationsUrl
+                organizationsUrl = it.organizationsUrl,
+                avatarUrl = it.avatarUrl
             )
         }
         return null
