@@ -9,6 +9,8 @@ data class ResponseClosedPrs(
     var createdAt: String? = "",
     @SerializedName("updated_at")
     var updatedAt: String? = "",
+    @SerializedName("closed_at")
+    var closedAt: String? = "",
     @SerializedName("title")
     var title: String? = "",
     @SerializedName("user")

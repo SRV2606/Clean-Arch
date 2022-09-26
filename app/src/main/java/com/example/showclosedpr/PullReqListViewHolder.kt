@@ -16,11 +16,15 @@ class PullReqListViewHolder(
         itemClickListener: (View, ClosedPullRequests?, Int, Any?) -> Unit
     ) {
         data?.let {
-            binding.user.text = it.user?.id.toString()
-            Glide.with(context).load(it.user?.avatarUrl).into(binding.imageView)
-            binding.title.text = it.title
-            binding.createdDate.text = it.createdAt
+            binding.userName.text = it.user?.login
+            Glide.with(context).load(it.user?.avatarUrl).into(binding.userImageIV)
+            binding.commitTitleTV.text = it.title
+            binding.createdAtTV.text = it.createdAt?.toHumanReadableTime()
+            binding.closedAtTV.text = it.closedAt?.toHumanReadableTime()
 
         }
     }
 }
+
+
+

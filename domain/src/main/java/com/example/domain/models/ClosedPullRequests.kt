@@ -7,5 +7,6 @@ import kotlinx.android.parcel.Parcelize
 data class ClosedPullRequests(
     var createdAt: String? = "",
     var title: String? = "",
+    var closedAt: String? = "",
     var user: User? = null
 ) : Parcelable

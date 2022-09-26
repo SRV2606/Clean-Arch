@@ -16,7 +16,8 @@ class ClosedPRMapper {
                         ClosedPullRequests(
                             title = it.title,
                             createdAt = it.createdAt,
-                            user = transformUser(it.user)
+                            user = transformUser(it.user),
+                            closedAt = it.closedAt
                         )
                     }
                     return ClientResult.Success(result)
